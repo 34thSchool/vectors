@@ -1,4 +1,4 @@
-package main
+package maths
 
 import (
 	"image/color"
@@ -10,19 +10,19 @@ import (
 
 // Vector:
 type vec struct {
-	x, y float64
+	x, y, z float64
 }
 
 func add(a, b vec) vec {
-	return vec{a.x + b.x, a.y + b.y}
+	return vec{a.x + b.x, a.y + b.y, 0}
 }
 
 func sub(a, b vec) vec {
-	return vec{a.x - b.x, a.y - b.y}
+	return vec{a.x - b.x, a.y - b.y, 0}
 }
 
 func divide(v vec, a float64) vec {
-	return vec{v.x / a, v.y / a}
+	return vec{v.x / a, v.y / a, 0}
 }
 
 func mod(a vec) float64 {
