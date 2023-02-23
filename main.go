@@ -9,39 +9,39 @@ import (
 )
 
 // Vector:
-type vec struct {
+type Vec struct {
 	x, y, z float64
 }
 
-func add(a, b vec) vec {
-	return vec{a.x + b.x, a.y + b.y, 0}
+func Add(a, b Vec) Vec {
+	return Vec{a.x + b.x, a.y + b.y, 0}
 }
 
-func sub(a, b vec) vec {
-	return vec{a.x - b.x, a.y - b.y, 0}
+func Sub(a, b Vec) Vec {
+	return Vec{a.x - b.x, a.y - b.y, 0}
 }
 
-func divide(v vec, a float64) vec {
-	return vec{v.x / a, v.y / a, 0}
+func Divide(v Vec, a float64) Vec {
+	return Vec{v.x / a, v.y / a, 0}
 }
 
-func mod(a vec) float64 {
+func Mod(a Vec) float64 {
 	return math.Sqrt(a.x*a.x + a.y*a.y)
 }
 
 // Line:
-func drawLine(screen *ebiten.Image, a, b vec) {
+func DrawLine(screen *ebiten.Image, a, b Vec) {
 	ebitenutil.DrawLine(screen, a.x, a.y, b.x, b.y, color.RGBA{255, 102, 204, 255})
 }
 
 // Rectangle:
-type rect struct {
-	A, B, C, D vec
+type Rect struct {
+	A, B, C, D Vec
 }
 
-func (r *rect) Draw(screen *ebiten.Image) {
-	drawLine(screen, r.A, r.B)
-	drawLine(screen, r.B, r.C)
-	drawLine(screen, r.C, r.D)
-	drawLine(screen, r.D, r.A)
+func (r *Rect) Draw(screen *ebiten.Image) {
+	DrawLine(screen, r.A, r.B)
+	DrawLine(screen, r.B, r.C)
+	DrawLine(screen, r.C, r.D)
+	DrawLine(screen, r.D, r.A)
 }
