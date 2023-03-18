@@ -1,4 +1,4 @@
-package maths
+package m
 
 import (
 	"image/color"
@@ -13,15 +13,19 @@ type Vec struct {
 }
 
 func Add(a, b Vec) Vec {
-	return Vec{a.X + b.X, a.Y + b.Y, 0}
+	return Vec{a.X + b.X, a.Y + b.Y, a.Z + b.Y}
 }
 
 func Sub(a, b Vec) Vec {
-	return Vec{a.X - b.X, a.Y - b.Y, 0}
+	return Vec{a.X - b.X, a.Y - b.Y, a.Z - b.Y}
 }
 
-func Divide(v Vec, a float64) Vec {
-	return Vec{v.X / a, v.Y / a, 0}
+func Div(v Vec, a float64) Vec {
+	return Vec{v.X / a, v.Y / a, v.Z / a}
+}
+
+func Mul(v Vec, a float64) Vec {
+	return Vec{v.X * a, v.Y * a, v.Z / a}
 }
 
 func Mod(a Vec) float64 {
@@ -32,18 +36,28 @@ type Rotator struct {
 	X, Y, Z float64
 }
 
+func (v *Vec) RotateZ(rad float64) {
+	x := v.X*math.Cos(rad) - v.Y*math.Sin(rad)
+	y := v.X*math.Sin(rad) + v.Y*math.Cos(rad)
+	v.X, v.Y = x, y
+}
+
+func (v *Vec) RotateY(rad float64) {
+	x := v.X*math.Cos(rad) + v.Z*math.Sin(rad)
+	z := v.X*-math.Sin(rad) + v.Z*math.Cos(rad)
+	v.X, v.Z = x, z
+}
+
+func (v *Vec) RotateX(rad float64) {
+	y := v.Y*math.Cos(rad) - v.Z*math.Sin(rad)
+	z := v.Y*math.Sin(rad) + v.Z*math.Cos(rad)
+	v.Y, v.Z = y, z
+}
+
 func (v *Vec) Rotate(rad Rotator) {
-	// Rotation around Z
-	v.X = v.X*math.Cos(rad.Z) - v.Y*math.Sin(rad.Z)
-	v.Y = v.X*math.Sin(rad.Z) + v.Y*math.Cos(rad.Z)
-
-	// Rotation around Y
-	v.X = v.X*math.Cos(rad.Y) - v.Z*math.Sin(rad.Y)
-	v.Z = v.X*math.Sin(rad.Y) + v.Z*math.Cos(rad.Y)
-
-	// Rotation around X
-	v.Y = v.Y*math.Cos(rad.X) + v.Z*math.Sin(rad.X)
-	v.Z = -v.Y*math.Sin(rad.X) + v.Z*math.Cos(rad.X)
+	v.RotateZ(rad.Z)
+	v.RotateY(rad.Y)
+	v.RotateX(rad.X)
 }
 
 func DrawLine(screen *ebiten.Image, a, b Vec) {
