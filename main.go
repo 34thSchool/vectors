@@ -1,4 +1,4 @@
-package m
+package v
 
 import (
 	"image/color"
@@ -32,6 +32,26 @@ func Mod(a Vec) float64 {
 	return math.Sqrt(a.X*a.X + a.Y*a.Y)
 }
 
+func Normalize(v Vec) Vec {
+	return Vec{
+		v.X / Mod(v),
+		v.Y / Mod(v),
+		v.Z / Mod(v),
+	}
+}
+
+func Cross(a, b Vec) Vec {
+	return Vec{
+		a.Y*b.Z - b.Y*a.Z,
+		a.Z*b.X - b.Z*a.X,
+		a.X*b.Y - b.X*a.Y,
+	}
+}
+
+func Dot(a, b Vec) float64 {
+	return a.X*b.X + a.Y*b.Y + a.Z*b.Z
+}
+
 type Rotator struct {
 	X, Y, Z float64
 }
@@ -60,19 +80,19 @@ func (v *Vec) Rotate(rad Rotator) {
 	v.RotateX(rad.X)
 }
 
-func DrawLine(screen *ebiten.Image, a, b Vec) {
-	ebitenutil.DrawLine(screen, a.X, a.Y, b.X, b.Y, color.RGBA{255, 102, 204, 255})
+func DrawLine(screen *ebiten.Image, a, b Vec, clr color.Color) {
+	ebitenutil.DrawLine(screen, a.X, a.Y, b.X, b.Y, clr)
 }
 
 type Rect struct {
 	A, B, C, D Vec
 }
 
-func (r *Rect) Draw(screen *ebiten.Image) {
-	DrawLine(screen, r.A, r.B)
-	DrawLine(screen, r.B, r.C)
-	DrawLine(screen, r.C, r.D)
-	DrawLine(screen, r.D, r.A)
+func (r *Rect) Draw(screen *ebiten.Image, clr color.Color) {
+	DrawLine(screen, r.A, r.B, clr)
+	DrawLine(screen, r.B, r.C, clr)
+	DrawLine(screen, r.C, r.D, clr)
+	DrawLine(screen, r.D, r.A, clr)
 }
 
 type Cube struct {
