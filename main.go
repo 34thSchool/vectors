@@ -9,11 +9,11 @@ type Vec struct {
 }
 
 func Add(a, b Vec) Vec {
-	return Vec{a.X + b.X, a.Y + b.Y, a.Z + b.Y}
+	return Vec{a.X + b.X, a.Y + b.Y, a.Z + b.Z}
 }
 
 func Sub(a, b Vec) Vec {
-	return Vec{a.X - b.X, a.Y - b.Y, a.Z - b.Y}
+	return Vec{a.X - b.X, a.Y - b.Y, a.Z - b.Z}
 }
 
 func Div(v Vec, a float64) Vec {
