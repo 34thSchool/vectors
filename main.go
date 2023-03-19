@@ -1,11 +1,7 @@
 package v
 
 import (
-	"image/color"
 	"math"
-
-	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 )
 
 type Vec struct {
@@ -25,11 +21,11 @@ func Div(v Vec, a float64) Vec {
 }
 
 func Mul(v Vec, a float64) Vec {
-	return Vec{v.X * a, v.Y * a, v.Z / a}
+	return Vec{v.X * a, v.Y * a, v.Z * a}
 }
 
 func Mod(a Vec) float64 {
-	return math.Sqrt(a.X*a.X + a.Y*a.Y)
+	return math.Sqrt(a.X*a.X + a.Y*a.Y + a.Z*a.Z)
 }
 
 func Normalize(v Vec) Vec {
@@ -78,29 +74,4 @@ func (v *Vec) Rotate(rad Rotator) {
 	v.RotateZ(rad.Z)
 	v.RotateY(rad.Y)
 	v.RotateX(rad.X)
-}
-
-func DrawLine(screen *ebiten.Image, a, b Vec, clr color.Color) {
-	ebitenutil.DrawLine(screen, a.X, a.Y, b.X, b.Y, clr)
-}
-
-type Rect struct {
-	A, B, C, D Vec
-}
-
-func (r *Rect) Draw(screen *ebiten.Image, clr color.Color) {
-	DrawLine(screen, r.A, r.B, clr)
-	DrawLine(screen, r.B, r.C, clr)
-	DrawLine(screen, r.C, r.D, clr)
-	DrawLine(screen, r.D, r.A, clr)
-}
-
-type Cube struct {
-	p [8]Vec
-}
-
-func (c *Cube) Rotate(r Rotator) {
-	for i := range c.p {
-		c.p[i].Rotate(r)
-	}
 }
