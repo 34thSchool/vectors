@@ -52,26 +52,24 @@ type Rotator struct {
 	X, Y, Z float64
 }
 
-func (v *Vec) RotateZ(rad float64) {
+func RotateZ(v *Vec, rad float64) *Vec {
 	x := v.X*math.Cos(rad) - v.Y*math.Sin(rad)
 	y := v.X*math.Sin(rad) + v.Y*math.Cos(rad)
-	v.X, v.Y = x, y
+	return &Vec{x, y, v.Z}
 }
 
-func (v *Vec) RotateY(rad float64) {
+func RotateY(v *Vec, rad float64) *Vec {
 	x := v.X*math.Cos(rad) + v.Z*math.Sin(rad)
 	z := v.X*-math.Sin(rad) + v.Z*math.Cos(rad)
-	v.X, v.Z = x, z
+	return &Vec{x, v.Y, z}
 }
 
-func (v *Vec) RotateX(rad float64) {
+func RotateX(v *Vec, rad float64) *Vec {
 	y := v.Y*math.Cos(rad) - v.Z*math.Sin(rad)
 	z := v.Y*math.Sin(rad) + v.Z*math.Cos(rad)
-	v.Y, v.Z = y, z
+	return &Vec{v.X, y, z}
 }
 
-func (v *Vec) Rotate(rad Rotator) {
-	v.RotateZ(rad.Z)
-	v.RotateY(rad.Y)
-	v.RotateX(rad.X)
+func Rotate(v *Vec, rad Rotator) *Vec {
+	return RotateZ(RotateY(RotateX(v, rad.X), rad.Y), rad.Z)
 }
