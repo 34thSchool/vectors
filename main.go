@@ -28,12 +28,8 @@ func Mod(a Vec) float64 {
 	return math.Sqrt(a.X*a.X + a.Y*a.Y + a.Z*a.Z)
 }
 
-func Normalize(v Vec) Vec {
-	return Vec{
-		v.X / Mod(v),
-		v.Y / Mod(v),
-		v.Z / Mod(v),
-	}
+func Norm(v Vec) Vec {
+	return Div(v, Mod(v))
 }
 
 func Cross(a, b Vec) Vec {
